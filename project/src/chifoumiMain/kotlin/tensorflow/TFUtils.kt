@@ -30,10 +30,10 @@ fun scalarTensor(value: Int): Tensor {
 
     return TF_NewTensor(
         TF_INT32,
-        dims = null, num_dims = 0,
-        data = data, len = IntVar.size.convert(),
-        deallocator = staticCFunction { dataToFree, _, _ -> nativeHeap.free(dataToFree!!.reinterpret<IntVar>()) },
-        deallocator_arg = null
+        null, 0,
+        data, IntVar.size.convert(),
+        staticCFunction { dataToFree, _, _ -> nativeHeap.free(dataToFree!!.reinterpret<IntVar>()) },
+        null
     )!!
 }
 
