@@ -1,5 +1,5 @@
 plugins {
-    id 'kotlin-multiplatform' version '1.3.60'
+    id 'kotlin-multiplatform' version '1.4.21'
     id 'org.hidetake.ssh' version '2.10.1'
 }
 
@@ -18,9 +18,9 @@ kotlin {
                 linkerOpts("-Lsrc/lib/pigpio", "-lpigpio")
 
                 // libPCA9685.so are compiled on raspberry pi and copied here
-                linkerOpts("-Lsrc/lib/pca9685", "-lpca9685")
+                linkerOpts("-Lsrc/lib/pca9685", "-lPCA9685")
 
-                linkerOpts("-Lsrc/lib/tensorflow", "-ltensorflow")
+                //linkerOpts("-Lsrc/lib/tensorflow", "-ltensorflow")
             }
         }
 
@@ -41,9 +41,9 @@ kotlin {
 remotes {
     pi {
         // your raspberry pi IP address
-        host = '192.168.1.98'
+        host = '192.168.0.13'
         user = 'pi'
-        identity = file("${System.properties['user.home']}/.ssh/raspberry_pi")
+        password = "raspberry"
     }
 }
 
@@ -52,7 +52,7 @@ task deployOnPi {
         ssh.run {
             session(remotes.pi) {
                 def sourceFile = "$buildDir/bin/chifoumi/releaseExecutable/chifoumi-robot.kexe"
-                def destinationDir = "/home/pi/qian/playground"
+                def destinationDir = "/home/pi"
 
                 put from: sourceFile, into: destinationDir
             }
